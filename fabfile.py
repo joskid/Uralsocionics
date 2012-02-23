@@ -3,7 +3,7 @@
 import os
 
 from fabric.api import *
-from fabric.contrib.files import exists, sed
+from fabric.contrib.files import exists, sed, upload_template
 
 from fab_settings import *
 
@@ -55,15 +55,14 @@ def environment():
 
 def local_settings():
     with cd(env.manage_dir):
-        run('cp local_settings.py.sample local_settings.py')
-        sed('local_settings.py', '<database_password>', DATABASE_PASSWORD)
+        upload_template('src/local_settings.py.sample', 'local_settings.py', {'DATABASE_PASSWORD': DATABASE_PASSWORD})
 
 
 def lighttpd():
     sudo('cp %(directory)s/tools/lighttpd/90-uralsocionics.conf /etc/lighttpd/conf-available/90-uralsocionics.conf' % env, shell=False)
     if not exists('/etc/lighttpd/conf-enabled/90-uralsocionics.conf'):
         sudo('ln -s /etc/lighttpd/conf-available/90-uralsocionics.conf /etc/lighttpd/conf-enabled/90-uralsocionics.conf', shell=False)
-    sudo('/etc/init.d/lighttpd restart', shell=False)
+#    sudo('/etc/init.d/lighttpd restart', shell=False)
 
 
 def dump():
