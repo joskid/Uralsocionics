@@ -44,6 +44,7 @@ def upload():
     with cd(env.directory):
         run('tar -zxf archive.tar.gz')
         run('rm archive.tar.gz')
+    local('del archive.tar.gz')
 
 
 def environment():
@@ -62,7 +63,7 @@ def lighttpd():
     sudo('cp %(directory)s/tools/lighttpd/90-uralsocionics.conf /etc/lighttpd/conf-available/90-uralsocionics.conf' % env, shell=False)
     if not exists('/etc/lighttpd/conf-enabled/90-uralsocionics.conf'):
         sudo('ln -s /etc/lighttpd/conf-available/90-uralsocionics.conf /etc/lighttpd/conf-enabled/90-uralsocionics.conf', shell=False)
-    run('sudo -u root /etc/init.d/lighttpd restart', shell=False)
+    sudo('/etc/init.d/lighttpd restart', shell=False)
 
 
 def dump():
