@@ -11,7 +11,7 @@ DATABASES = {
         'NAME': 'uralsocionics',
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'uralsocionics',
-        'PASSWORD': ''
+        'PASSWORD': '<database_password>',
     }
 }
 
