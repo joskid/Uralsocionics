@@ -1,0 +1,36 @@
+﻿{% load russian %}
+{% load common %}
+<div class="comments">
+
+    <ul class="article_announce">
+
+{% for c in comments %}
+
+<li>
+
+    <div class="comment" id="c{{ c.id }}">
+        <div class="title">{{ c.author.nick }}</div>
+        <div class="date">{{ c.date_created|human_date }} {{ c.date_created|human_time }}</div>
+        {% if user.get_profile.is_empowered %} | <div class="grey"> <a href="/admin/core/comment/{{ c.id }}/" target="_blank">Редактировать</a> / <a href="/admin/core/comment/{{ c.id }}/delete/" target="_blank">Удалить</a></div>{% endif %}     
+        <p>
+        <div class="content markdown">{{ c.content|markup }}</div>
+    </div>
+        </li>
+    {% endfor %}
+    </ul>
+
+</div>
+
+{% if user.is_authenticated %}
+
+   <small>Добавить комментарий:</small>
+    {{ error }}
+    <form action="" method="post" id="comment_form">
+        <textarea name="content" cols="40" rows="5"></textarea><br />
+        <input type="submit" name="action" value="Отправить">
+    </form>
+    <small>Обратите внимание, что вы не сможете впоследствии отредактировать или удалить свои комментарии.
+    <br>{% if is_subscribe %}<a href="?subscribe=off">Отписаться от темы</a>{% else %}<a href="?subscribe=on">Подписаться на тему</a>{% endif %}</small>
+<br>{% else %}
+    <small><em>Для того чтобы добавлять комментарии, вам надо <a href='{% url login %}'>представиться</a> или <a href="{% url registration %}">зарегистрироваться</a>.</em></small>
+{% endif %}

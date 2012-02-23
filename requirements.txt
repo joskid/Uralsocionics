@@ -1,0 +1,9 @@
+Django
+Markdown
+MySQL-python
+PIL
+South
+django-tagging
+flup
+logging
+wsgiref

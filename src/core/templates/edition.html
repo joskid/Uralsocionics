@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ edition.title }}{% endblock %}
+
+{% block content %}
+
+	<h1>Издание {{ edition }}</h1>
+
+	<ul>
+	{% for a in articles %}
+		<li><a href="{% url article a.id %}">{{ a.title }}</a></li>
+	{% endfor %}
+	</ul>
+
+{% endblock %}

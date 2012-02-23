@@ -1,0 +1,18 @@
+#production
+
+import os, sys
+
+sys.path.append('/home/www/projects/applications')
+
+DOMAIN = 'uralsocionics.ru'
+
+DATABASES = {
+    'default': {
+        'NAME': 'uralsocionics',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'uralsocionics',
+        'PASSWORD': ''
+    }
+}
+
+LOG_PATH = '/var/log/projects/uralsocionics'

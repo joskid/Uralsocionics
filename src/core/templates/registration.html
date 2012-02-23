@@ -1,0 +1,33 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="text">
+<h3>Я новый пользователь</h3>
+{% if form.non_field_errors %}<div class="error">{{ form.non_field_errors|join:", " }}</div>{% endif %}
+</div>
+
+<form method="post" action="{% url registration %}">
+{% csrf_token %}
+<table>
+    <tr><td class="text" valign="top" style="padding-bottom:5px;"><label for="id_username">Логин:</label><br /><small>Англ буквы и цифры, не менее 3 символов</small>
+        <div class="error">{{ form.errors.username|join:", " }}</div></td>
+        <td class="text" valign="top">{{ form.username }}</td></tr>
+    <tr><td class="text" valign="top" style="padding-bottom:5px;"><label for="id_password1">Пароль:</label>
+        <div class="error">{{ form.errors.password1|join:", " }}</div></td>
+        <td class="text" valign="top">{{ form.password1 }}</td></tr>
+    <tr><td class="text" valign="top" style="padding-bottom:5px;"><label for="id_password2">Пароль (еще раз):</label><br /><small>Для надежности</small>
+        <div class="error">{{ form.errors.password2|join:", " }}</div></td>
+        <td class="text" valign="top">{{ form.password2 }}</td></tr>
+    <tr><td class="text" valign="top" style="padding-bottom:5px;"><label for="id_email">Email:</label><br /><small>Для оповещений и восстановления пароля</small>
+        <div class="error">{{ form.errors.email|join:", " }}</div></td>
+        <td class="text" valign="top">{{ form.email }}</td></tr>
+    <tr><td colspan="2" align="right">
+       <input type="submit" value="Зарегистрироваться" />
+    </td></tr>
+</table>
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+</div>
+{% endblock %}

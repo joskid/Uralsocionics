@@ -1,0 +1,22 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+<div class="text">
+    {% if form.has_errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+    
+    <h3>Вход в систему</h3>
+    <form method="post" action="">
+    {% csrf_token %}
+
+    <table>
+        {{ form }}
+    </table>
+    <input type="submit" value="Войти" />
+    <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+</div>
+{% endblock %}

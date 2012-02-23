@@ -1,0 +1,4 @@
+          {% if article.authors.count or article.other_author %}
+            {% for user in article.authors.all %}{{ user.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% if article.authors.count and article.other_author %}, {% endif %}
+            {{ article.other_author }}
+          {% endif %}

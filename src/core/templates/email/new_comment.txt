@@ -1,0 +1,8 @@
+{%load common%}Uralsocionics.ru: новый комментарий
+<html><body>
+Здравствуйте. {{comment.author.nick}} добавил комментарий к <a href="http://uralsocionics.ru{{entry.get_absolute_url}}">странице</a>, на которую вы подписаны:
+<br /><br />
+<em>{{comment.content|markup}}</em><br /><br />
+<a href="http://uralsocionics.ru{{entry.get_absolute_url}}#comment_form">Ответить</a>.<br /><br />
+<a href="http://uralsocionics.ru{{entry.get_absolute_url}}?subscribe=off">Отписаться от комментариев к этой странице</a>.
+</body></html>

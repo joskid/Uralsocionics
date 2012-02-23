@@ -1,0 +1,68 @@
+﻿{% extends "base.html" %}
+{% load common %}
+{% load russian %}
+{% load tagging_tags %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+
+	<ul class="article_announce">
+	{% for article in articles %}
+		<li>
+		  <div class="title"><a href="{% url article article.id %}">{{ article.title|safe }}</a></div>
+		  <div class="authors">{% article_authors article %}</div>
+		  <div class="date">{{ article.date_created|human_date }}</div>
+		  
+<p>		  <div class="content">{{ article.announce|markup:"safe" }}
+<br>                    <a href="{% url article article.id %}">Читать дальше...</a></div>
+		  <table class="footer" style="clear:both;"><tr>
+		      <td>
+        		  {% tags_for_object article as tag_list %}
+
+                  {% if tag_list %}<p><small>Ключевые слова:{% endif %}
+                  {% for tag in tag_list %}<a href="{% url tag tag.id %}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</small>
+               </td><td>
+                    <div style="text-align:right"><small>Комментарии: {{ article.comments_count }}</small></div>
+               </td>
+          </tr></table>
+		</li>
+	{% endfor %}
+	</ul>
+
+{% endblock %}
+
+{% block advert %}
+
+
+
+<p><small>Ссылки:</small>
+
+<p><a href="{% url article 185 %}"><b>Аренда зала для тренингов и индивидуальных занятий</b><br>
+<img src="http://uralsocionics.ru/media/img/DSC00654_sm.jpg" border="1"></a>
+
+<br><br><br>
+
+<p><A href="http://vkontakte.ru/uralsozionclub" target="_blank"><IMG src="https://vk.com/images/vk16.png" border=0> Уральский соционический клуб</A>
+
+<p><A href="http://vkontakte.ru/base_socionic" target="_blank"><IMG src="https://vk.com/images/vk16.png" border=0> Соционика: базовый курс</A>
+
+<p><A href="http://vkontakte.ru/science_socionics" target="_blank"><IMG src="https://vk.com/images/vk16.png" border=0> «Журнал НСО»</A>
+
+<p><A href="http://community.livejournal.com/ekb_socionics/profile" target="_blank"><IMG src="http://stat.livejournal.com/img/community.gif" border=0></A><A href="http://community.livejournal.com/ekb_socionics/" target="_blank">ekb_socionics</A>
+
+<p><a href="http://www.socioforum.su/viewforum.php?f=48" target="_blank">Екатеринбург на Социофоруме</a>
+
+<p><a href="http://socion.org" target="_blank">Издательская группа «Чёрная белка». <small>Книги по соционике и не только</small></a>
+
+<p><a href="http://model-a.narod.ru/" target="_blank">Ментальная Модель Типа <small>(материалы лекций Евгения Шепетько)</small></a>
+
+<p><a href="http://www.socioniki.com/" target="_blank">Соционический атлас</a>
+
+<p><a href="http://www.socioniki.info/" target="_blank">Каталог социоников</a>
+
+<p><a href="http://perspektiva-ekb.ru/" target="_blank">Центр «Перспектива». <small>Психологические тренинги в Екатеринбурге</small></a>
+
+<p><a href="http://samopoznanie.ru/" target="_blank">Самопознание.ру — тренинги и семинары по личностному росту</a> 
+
+{% endblock advert %}

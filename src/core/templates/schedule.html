@@ -1,0 +1,30 @@
+﻿{% extends "base.html" %}
+{% load russian %}
+
+{% block title %}Расписание{% endblock %}
+
+{% block content %}
+<table class="schedule">
+{% for m in schedule %}
+    <tr>{% if forloop.first %}<td class="month"><a href="?date={{ prev|date:"Y-m-d" }}">&lt;&lt; {{ prev.month|human_month }}</a></td>
+                            <td class="month" colspan="5"><div class="header1">{{ m.number|human_month }}</div></td>
+                            <td class="month" align="right"><a href="?date={{ next|date:"Y-m-d" }}">{{ next.month|human_month }} &gt;&gt;</a></td>
+        {% else %}<td class="month" colspan="7"><div class="header1">{{ m.number|human_month }}</div>{% endif %}</tr>
+    <tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr>
+    {% for week in m.month %}
+    <tr>
+        {% for day in week %}
+            <td class="{% if day.holiday %}holiday{% endif %} {% if not day.date %}no_day{% endif %}">{% if day.date %}<div class="header {% if day.today %}today{% endif %}">{{ day.day }}</div>
+                <div>{{ day.event.content|default:""|safe }}</div>
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+{% endfor %}
+</table>
+
+{% endblock %}
+

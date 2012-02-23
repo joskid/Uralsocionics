@@ -1,0 +1,32 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Карта сайта{% endblock %}
+
+{% block content %}
+	<div>Категории:</div>
+	<ul>
+	{% for c in categories %}
+		<li><a href="{% url category c.id %}">{{ c.title }}</a></li>
+	{% endfor %}
+	</ul>
+	
+    <p>
+
+    <div>Статьи:</div>
+    <ul>
+    {% for a in articles %}
+        <li><a href="{% url article a.id %}">{{ a.title }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <p>
+
+    <div>Издания:</div>
+    <ul>
+    {% for e in editions %}
+        <li><a href="{% url edition e.id %}">{{ e.title }}</a></li>
+    {% endfor %}
+    </ul>
+
+
+{% endblock %}

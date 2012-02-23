@@ -1,0 +1,22 @@
+﻿{% extends "base.html" %}
+{% load common %}
+{% load tagging_tags %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+
+<div class="text">
+		<h2>Книжная лавка</h2>
+	<br>
+	<div><strong>{{ error }}</strong></div>
+	<br>
+
+    <form action="/order" method="post">
+        Я хочу заказать:<br>
+        {{ form.order }}<br>
+         Мои контакты (e-mail или телефон): {{ form.contacts }} <input value="Отправить заказ" type="submit">
+    </form>
+    
+</div>
+{% endblock %}

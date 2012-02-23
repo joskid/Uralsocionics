@@ -1,0 +1,56 @@
+﻿{% extends "base.html" %}
+{% load common %}
+{% load tagging_tags %}
+{% load russian %}
+
+{% block title %}{{ category.title }}{% endblock %}
+
+{% block content %}
+<div class="text">
+	{% if category.show_title %}<h2>{{ category.title }}</h2>{% endif %}
+
+<p>
+	{% if category.description %}{{ category.description|markup:"safe" }}{% endif %}
+<p>
+
+
+    {% if children %}
+	   {% for c in children %}
+	       <p><a href="{% url category c.id %}">{{ c.title }}</a>
+	   {% endfor %}	
+	{% endif %}
+</div>
+	
+    <ul class="article_announce">
+    {% for article in last_articles %}
+        <li>
+          <div class="title"><a href="{% url article article.id %}">{{ article.title|safe }}</a></div>
+          <div class="authors">{% article_authors article %}</div>
+		  <div class="date">{{ article.date_created|human_date }}</div>
+
+<p>       <div class="content">{{ article.announce|markup:"safe" }}
+<br>                    <a href="{% url article article.id %}">Читать дальше...</a></div>
+          <table class="footer" style="clear:both;"><tr>
+              <td>
+
+                {% tags_for_object article as tag_list %}
+                                 
+                {% if tag_list %}<p><small>Ключевые слова:{% endif %}
+                      {% for tag in tag_list %}<a href="{% url tag tag.id %}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</small>
+                  
+               </td><td>
+                    <div style="text-align:right"><small>Комментарии: {{ article.comments_count }}</small></div>
+               </td>
+          </tr></table>
+        </li>
+    {% endfor %}
+    </ul>
+
+<div class="text">
+	{% for article in articles %}
+		<p>{% article_authors article %}<a href="{% url article article.id %}">{{ article.title }}</a>
+		  
+	{% endfor %}
+</div>	
+
+{% endblock %}
