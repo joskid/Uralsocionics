@@ -114,12 +114,11 @@ LOGGING = {
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
-            'filters': ['special']
         }
     },
     'loggers': {
         'django': {
-            'handlers':['null'],
+            'handlers':['console', 'mail_admins'],
             'propagate': True,
             'level':'INFO',
             },
@@ -131,7 +130,6 @@ LOGGING = {
         'myproject.custom': {
             'handlers': ['console', 'mail_admins'],
             'level': 'INFO',
-            'filters': ['special']
         }
     }
 }
