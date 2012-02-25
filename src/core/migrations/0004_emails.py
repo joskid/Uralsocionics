@@ -5,13 +5,13 @@ from south.v2 import DataMigration
 from django.db import models
 from django.conf import settings
 
-from subscribe.models import Subscription
+from django_subscribe.models import Subscription
 
 class Migration(DataMigration):
 
     def forwards(self, orm):
         "Write your forwards methods here."
-        
+
         for email in open(os.path.join(os.path.dirname(__file__), 'emails.txt')).read().split(';'):
             s = Subscription(email=email.strip())
             s.fill_codes()

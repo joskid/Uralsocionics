@@ -7,3 +7,4 @@ django-tagging
 flup
 logging
 wsgiref
+-e git+https://github.com/glader/django_subscribe.git#egg=django_subscribe
