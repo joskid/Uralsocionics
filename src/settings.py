@@ -73,7 +73,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'tagging',
-    'django_russian',
     'south',
     'core',
     'django_subscribe',

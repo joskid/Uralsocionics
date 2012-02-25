@@ -1,6 +1,5 @@
 ﻿{% extends "base.html" %}
 {% load common %}
-{% load russian %}
 {% load tagging_tags %}
 
 {% block title %}Главная страница{% endblock %}
@@ -13,7 +12,7 @@
 		  <div class="title"><a href="{% url article article.id %}">{{ article.title|safe }}</a></div>
 		  <div class="authors">{% article_authors article %}</div>
 		  <div class="date">{{ article.date_created|human_date }}</div>
-		  
+
 <p>		  <div class="content">{{ article.announce|markup:"safe" }}
 <br>                    <a href="{% url article article.id %}">Читать дальше...</a></div>
 		  <table class="footer" style="clear:both;"><tr>
@@ -63,6 +62,6 @@
 
 <p><a href="http://perspektiva-ekb.ru/" target="_blank">Центр «Перспектива». <small>Психологические тренинги в Екатеринбурге</small></a>
 
-<p><a href="http://samopoznanie.ru/" target="_blank">Самопознание.ру — тренинги и семинары по личностному росту</a> 
+<p><a href="http://samopoznanie.ru/" target="_blank">Самопознание.ру — тренинги и семинары по личностному росту</a>
 
 {% endblock advert %}

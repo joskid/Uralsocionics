@@ -1,4 +1,6 @@
+ENV
 .idea
+log
 *.pyc
 *.gz
 fab_settings.py

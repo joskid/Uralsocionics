@@ -1,7 +1,6 @@
 ﻿{% extends "base.html" %}
 {% load common %}
 {% load tagging_tags %}
-{% load russian %}
 
 {% block title %}{{ category.title }}{% endblock %}
 
@@ -17,10 +16,10 @@
     {% if children %}
 	   {% for c in children %}
 	       <p><a href="{% url category c.id %}">{{ c.title }}</a>
-	   {% endfor %}	
+	   {% endfor %}
 	{% endif %}
 </div>
-	
+
     <ul class="article_announce">
     {% for article in last_articles %}
         <li>
@@ -34,10 +33,10 @@
               <td>
 
                 {% tags_for_object article as tag_list %}
-                                 
+
                 {% if tag_list %}<p><small>Ключевые слова:{% endif %}
                       {% for tag in tag_list %}<a href="{% url tag tag.id %}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</small>
-                  
+
                </td><td>
                     <div style="text-align:right"><small>Комментарии: {{ article.comments_count }}</small></div>
                </td>
@@ -49,8 +48,8 @@
 <div class="text">
 	{% for article in articles %}
 		<p>{% article_authors article %}<a href="{% url article article.id %}">{{ article.title }}</a>
-		  
+
 	{% endfor %}
-</div>	
+</div>
 
 {% endblock %}

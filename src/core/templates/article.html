@@ -1,7 +1,6 @@
 ﻿{% extends "base.html" %}
 {% load common %}
 {% load tagging_tags %}
-{% load russian %}
 
 {% block title %}{{ article.title|safe }}{% endblock %}
 
@@ -10,39 +9,39 @@
 <div class="text">
 
 	<h2>{{ article.title|safe }}</h2>
-    
-    
+
+
         <h3>{% article_authors article %}</h3>
-    
-    
+
+
     {% if article.show_date %}<div class="date">{{ article.date_created|human_date }}</div>{% endif %}
-     
-    <p>	
-		
+
+    <p>
+
 	{{ article.content|markup:"safe" }}
 
 	{% tags_for_object article as tag_list %}
-    
+
     {% if tag_list %}<p>Ключевые слова: {% endif %}
 
-	
+
 	{% for tag in tag_list %}<a href="{% url tag tag.id %}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
-	
-    
+
+
     {% if article.show_share_block %}
         <p style="margin-top: 20px;">
             <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
-            <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj"></div> 
+            <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj"></div>
         </p>
     {% endif %}
 
-</div>	
+</div>
 	{% if article.comments_enabled %}
     	{% with article.comments.all as comments %}
             {% include "block_comments.html" %}
         {% endwith %}
     {% endif %}
-    
+
     {% if user.get_profile.is_empowered %}
 <a href="/admin/core/article/{{ article.id }}/">Редактировать</a>
     {% endif %}

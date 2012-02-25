@@ -1,8 +1,4 @@
-#production
-
-import os, sys
-
-sys.path.append('/home/www/projects/applications')
+# production
 
 DOMAIN = 'uralsocionics.ru'
 
