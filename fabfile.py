@@ -33,6 +33,7 @@ def production():
     environment()
     local_settings()
     lighttpd()
+    runit()
     dump()
     migrate()
     restart()
@@ -55,14 +56,23 @@ def environment():
 
 def local_settings():
     with cd(env.manage_dir):
-        upload_template('src/local_settings.py.sample', 'local_settings.py', {'DATABASE_PASSWORD': DATABASE_PASSWORD})
+        upload_template(
+            'src/local_settings.py.sample',
+            'local_settings.py',
+            {'DATABASE_PASSWORD': DATABASE_PASSWORD},
+            backup=False
+        )
 
 
 def lighttpd():
     sudo('cp %(directory)s/tools/lighttpd/90-uralsocionics.conf /etc/lighttpd/conf-available/90-uralsocionics.conf' % env, shell=False)
     if not exists('/etc/lighttpd/conf-enabled/90-uralsocionics.conf'):
         sudo('ln -s /etc/lighttpd/conf-available/90-uralsocionics.conf /etc/lighttpd/conf-enabled/90-uralsocionics.conf', shell=False)
-#    sudo('/etc/init.d/lighttpd restart', shell=False)
+#    sudo('/etc/init.d/lighttpd reload', shell=False)
+
+
+def runit():
+    sudo('cp %(directory)s/tools/runit/run /etc/sv/uralsocionics/run' % env, shell=False)
 
 
 def dump():

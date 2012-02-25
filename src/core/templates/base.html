@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
 <head>
     <title>{% block title %}{% endblock %} Уральская школа соционики</title>
-    
+
 	<link href="{{ MEDIA_URL }}css/main.css?2" rel="stylesheet" type="text/css" media="screen" />
-	<script src="/src/mediaedia/js/jquery-1.2.6.pack.js"></script>
+	<script src="{{ MEDIA_URL }}js/jquery-1.2.6.pack.js"></script>
 
     <meta name='yandex-verification' content='652a7e625a682c1c' />
 </head>
 <body><table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-bottom: 1px solid #6A432B; border-top: 1px solid #6A432B;"><tr>
-    <td width="210px"><img src="/src/mediaedia/design/logo.jpg" style="margin:3px;"></td>
+    <td width="210px"><img src="{{ MEDIA_URL }}design/logo.jpg" style="margin:3px;"></td>
     <td>
         <div style="text-align:left; margin:0px 0px 0px 0px;">
             <div style="color:#6A432B; font-size:200%; font-weight:bold;"><a href="/" style="color:#6A502B; text-decoration:none;">uralsocionics.ru</a></div>
@@ -26,7 +26,7 @@
             <a href='{% url login %}'>Вход</a> / <a href="{% url registration %}">Регистрация</a>
         {% endif %}
         <br><br>
-        
+
         <a href="{% url article 6 %}"><nobr>что такое соционика?</nobr></a><br>
         <a href="{% url article 4 %}">специалисты</a><br>
         <a href="/schedule">расписание</a><br>
@@ -50,7 +50,7 @@
 
     <td valign="top" style="padding:20px;">
 
-        {% block content %}{% endblock %}  
+        {% block content %}{% endblock %}
 
     </td>
 
@@ -58,11 +58,11 @@
 
         <div class="b-block b-block_centered">
             <h2>Скачать архив <br>«Журнала НСО»
-            <br><br><img src="/src/mediaedia/img/magazines.jpg">
+            <br><br><img src="{{ MEDIA_URL }}img/magazines.jpg">
             <p>6 журналов <br>в формате pdf</h2>
             <p>
             {% if user.is_authenticated %}
-                <b><big><a href="/src/media/img/jnso.zip">СКАЧАТЬ</a></big></b>
+                <b><big><a href="{{ MEDIA_URL }}img/jnso.zip">СКАЧАТЬ</a></big></b>
             {% else %}
 Чтобы увидеть ссылку, <a href='{% url login %}'>войдите</a> или <a href="{% url registration %}">зарегистрируйтесь</a>
             {% endif %}
@@ -74,12 +74,12 @@
         {% for tag in tags_cloud %}
             <a href="{% url tag tag.id %}" class="tag_{{ tag.font_size }}">{{ tag }}</a>
         {% endfor %}
-    
+
 <br><br>
 
 <p><small>Для корректного отображения соционических символов в некоторых статьях необходим специальный <a href="http://uralsocionics.ru/media/img/Socionic.TTF">соционический шрифт</a>.</small>
 </td></tr></table>
-  
+
   <div style="text-align:center; margin:3px;">
   <small class="nav-text"><!--<a href="/sitemap">Карта сайта</a></small>--> <small> &#169; Уральская школа соционики, 2008-2011</small>
   </div>
@@ -95,4 +95,3 @@ pageTracker._trackPageview();
 </script>
 </body>
 </html>
-  

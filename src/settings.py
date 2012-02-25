@@ -134,21 +134,7 @@ LOGGING = {
     }
 }
 
-
 try:
     from local_settings import *
 except ImportError:
     pass
-
-EXCEPTION_LOG_FILE = os.path.join(LOG_PATH, 'exception.log')
-TRACEBACK_LOG_FILE = os.path.join(LOG_PATH, 'traceback.log')
-
-LOGGING_FORMAT = '%(asctime)s %(name)-15s %(levelname)s %(message)s'
-LOGGING_MAX_FILE_SIZE = 1 * 1024 * 1024 #: Максимальный размер файла с логами в байтах.
-LOGGING_MAX_FILES_COUNT = 10 #: Количество бекапов файлов с логами.
-
-WARNING_LOG_PATH = os.path.join(LOG_PATH, 'warning.log')
-ADMIN_LOG_PATH = os.path.join(LOG_PATH, 'admin.log')
-
-LOG_SENDMAIL = os.path.join(LOG_PATH, 'email.log')
-
