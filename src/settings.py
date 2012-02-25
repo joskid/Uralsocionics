@@ -76,7 +76,7 @@ INSTALLED_APPS = (
     'django_russian',
     'south',
     'core',
-    'subscribe',
+    'django_subscribe',
 )
 
 SMILES_URL = MEDIA_URL + "design/smiles/"

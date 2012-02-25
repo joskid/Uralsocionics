@@ -3,10 +3,10 @@ from django.conf.urls.defaults import patterns, url, include, handler404, handle
 from django.contrib import admin
 
 admin.autodiscover()
-    
+
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
-    (r'^subscribe/', include('subscribe.urls')),
-    (r'^', include('src.core.urls')),
+    (r'^subscribe/', include('django_subscribe.urls')),
+    (r'^', include('core.urls')),
 )
 

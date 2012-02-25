@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.template import RequestContext, Context, loader
 from django.core.mail import EmailMessage
 from tagging.models import Tag, TaggedItem
-from subscribe.models import Subscription
+from django_subscribe.models import Subscription
 
 from src.core.models import *
 from src.core.forms import *
@@ -44,24 +44,24 @@ def article(request, article_id):
     profile = request.user.is_authenticated() and request.user.get_profile() or None
     context = {'article': get_object_or_404(Article, pk=article_id)
                }
-    
+
     if request.user.is_authenticated():
         if request.POST.get('action'):
             # Сохраняем коммент
             content = request.POST.get('content')
             if len(content) > 0:
                 context['article'].comments.create(author=profile, content=content)
-                return HttpResponseRedirect(reverse('article', args=[article_id]))                 
+                return HttpResponseRedirect(reverse('article', args=[article_id]))
             else:
-                context['error'] = u"Вы забыли ввести комментарий"  
-    
+                context['error'] = u"Вы забыли ввести комментарий"
+
     return render_to_response(request, 'article.html', context)
 
 def edition(request, edition_id):
     edition = get_object_or_404(Edition, pk=edition_id)
     context = {'edition': edition,
                'articles': edition.article_set.all()
-               }    
+               }
     return render_to_response(request, 'edition.html', context)
 
 def tag(request, tag_id):
@@ -76,7 +76,7 @@ def schedule(request):
     months_count = 2
     schedule = []
     today = date.today()
-    request_date = today 
+    request_date = today
     if 'date' in request.GET:
         try:
             request_date = date( *time.strptime(request.GET['date'], "%Y-%m-%d")[:3] )
@@ -95,9 +95,9 @@ def schedule(request):
         else:
             month = m
             year = request_date.year
-                    
+
         month_days = calendar.monthcalendar(year, month)
-        
+
         for week in month_days:
             for i in xrange(0, len(week)):
                 week[i] = {'day':week[i]}
@@ -106,15 +106,15 @@ def schedule(request):
                     if i >= 5:
                         week[i]['holiday'] = True
                     if today == week[i]['date']:
-                        week[i]['today'] = True                        
-                    week[i]['event'] = days.get(week[i]['date'])                    
+                        week[i]['today'] = True
+                    week[i]['event'] = days.get(week[i]['date'])
                 except ValueError:
                     week[i]['date'] = ''
-                    
+
         schedule.append({'month':month_days, 'number':month})
-                
-    return render_to_response(request, 'schedule.html', 
-                              {'schedule':schedule, 
+
+    return render_to_response(request, 'schedule.html',
+                              {'schedule':schedule,
                                'prev': (request_date - timedelta(days=15)).replace(day=1),
                                'next': (request_date + timedelta(days=45)).replace(day=1)
                                })
@@ -124,9 +124,9 @@ def order(request):
     if request.POST:
         context['form'] = OrderForm(request.POST)
         if context['form'].is_valid():
-            message = EmailMessage(u"Заказ", 
-                                   context['form'].cleaned_data['contacts'] + "\n\n" + context['form'].cleaned_data['order'], 
-                                   'order@uralsocionics.ru', 
+            message = EmailMessage(u"Заказ",
+                                   context['form'].cleaned_data['contacts'] + "\n\n" + context['form'].cleaned_data['order'],
+                                   'order@uralsocionics.ru',
                                    ['madera@socion.org'])
             message.send()
             context['error'] = u"Ваш заказ принят"
@@ -134,25 +134,25 @@ def order(request):
             context['error'] = context['form'].str_errors()
     else:
         context['error'] = u"заполните форму заказа"
-    
-    return render_to_response(request, 'order.html', context)      
-    
-        
+
+    return render_to_response(request, 'order.html', context)
+
+
 def ask(request):
     if 'done' in request.GET:
         return render_to_response(request, 'thanks.html')
-    
+
     elif request.POST:
         form = Ask01(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('ask') + '?done=1')
-    
+
     else:
         form = Ask01()
-        
-    return render_to_response(request, 'ask.html', {'form':form})        
-    
+
+    return render_to_response(request, 'ask.html', {'form':form})
+
 
 def sitemap(request):
     context = {'editions': Edition.objects.all(),
@@ -166,33 +166,33 @@ def send_registration_letter(profile):
     c = Context({'profile':profile})
     subject, content = t.render(c).split("\n", 1)
     letter = Letter(recipient=profile, subject=subject, content=content)
-    letter.save()    
-    
+    letter.save()
+
 def registration(request):
     if request.POST:
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            new_user = User.objects.create_user(form.cleaned_data['username'], 
-                                                form.cleaned_data['email'], 
+            new_user = User.objects.create_user(form.cleaned_data['username'],
+                                                form.cleaned_data['email'],
                                                 form.cleaned_data['password'])
             new_user.is_active = True
             new_user.save()
-            user = authenticate(username=form.cleaned_data['username'], 
+            user = authenticate(username=form.cleaned_data['username'],
                                 password=form.cleaned_data['password'])
             auth.login(request, user)
-            
-            profile = Profile(user=new_user,                               
+
+            profile = Profile(user=new_user,
                               nick=form.cleaned_data['username'])
             profile.save()
-            
+
             send_registration_letter(profile)
 
             s = Subscription(email=form.cleaned_data['email'])
             s.fill_codes()
             s.confirm(s.confirmation_code)
-            
+
             return HttpResponseRedirect('/')
     else:
         form = RegistrationForm(initial={})
-    
+
     return render_to_response(request, 'registration.html', {'form':form})
