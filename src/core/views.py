@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import calendar
 from datetime import date, timedelta
-import time
 
 from django.contrib import auth
 from django.contrib.auth import authenticate
@@ -13,8 +12,8 @@ from django.core.mail import EmailMessage
 from tagging.models import Tag, TaggedItem
 from django_subscribe.models import Subscription
 
-from src.core.models import *
-from src.core.forms import *
+from core.models import *
+from core.forms import *
 
 def render_to_response(request, template_name, context_dict=None):
     from django.shortcuts import render_to_response as _render_to_response
