@@ -78,8 +78,7 @@ INSTALLED_APPS = (
     'django_subscribe',
 )
 
-DEFAULT_FROM_EMAIL = 'robot@uralsocionics.ru'
-
+SERVER_EMAIL = DEFAULT_FROM_EMAIL = 'glader.ru@gmail.com'
 
 LOGGING = {
     'version': 1,

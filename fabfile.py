@@ -60,7 +60,10 @@ def local_settings():
         upload_template(
             'src/local_settings.py.sample',
             'local_settings.py',
-            {'DATABASE_PASSWORD': DATABASE_PASSWORD},
+            {'DATABASE_PASSWORD': DATABASE_PASSWORD,
+             'SES_ACCESS_KEY_ID': SES_ACCESS_KEY_ID,
+             'SES_SECRET_ACCESS_KEY': SES_SECRET_ACCESS_KEY,
+             },
             backup=False
         )
 
