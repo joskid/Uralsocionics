@@ -37,7 +37,7 @@ USE_I18N = True
 MEDIA_ROOT = PROJECT_PATH + '/media/'
 MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/admin/media/'
-SECRET_KEY = '(q3s-v$9jv#x&ow)w_+*vxyucyk#z&jb!j=*bgctzhivv#efmj'
+SECRET_KEY = '12345'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -102,15 +102,10 @@ LOGGING = {
         }
     },
     'loggers': {
-        'django': {
-            'handlers':['console', 'mail_admins'],
-            'propagate': True,
-            'level':'INFO',
-            },
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
-            'propagate': False,
+            'propagate': True,
             },
     }
 }

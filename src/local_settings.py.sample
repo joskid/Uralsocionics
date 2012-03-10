@@ -14,3 +14,5 @@ LOG_PATH = '/var/log/projects/uralsocionics'
 EMAIL_BACKEND = 'django_ses.SESBackend'
 AWS_ACCESS_KEY_ID = '%(SES_ACCESS_KEY_ID)s'
 AWS_SECRET_ACCESS_KEY = '%(SES_SECRET_ACCESS_KEY)s'
+
+SECRET_KEY = '%(DJANGO_SECRET_KEY)s'

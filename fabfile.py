@@ -63,6 +63,7 @@ def local_settings():
             {'DATABASE_PASSWORD': DATABASE_PASSWORD,
              'SES_ACCESS_KEY_ID': SES_ACCESS_KEY_ID,
              'SES_SECRET_ACCESS_KEY': SES_SECRET_ACCESS_KEY,
+             'DJANGO_SECRET_KEY': DJANGO_SECRET_KEY,
              },
             backup=False
         )
