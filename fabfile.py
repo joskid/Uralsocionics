@@ -83,6 +83,7 @@ def dump():
 def manage_py(command):
     virtualenv('cd %s && python manage.py %s' % (env.manage_dir, command))
 
+
 def migrate():
     manage_py('migrate')
 

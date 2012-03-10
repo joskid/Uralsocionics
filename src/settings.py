@@ -78,18 +78,6 @@ INSTALLED_APPS = (
     'django_subscribe',
 )
 
-SMILES_URL = MEDIA_URL + "design/smiles/"
-SMILES = [ [':\)+', SMILES_URL + 'smile3.gif' ],
-           [':-\)+', SMILES_URL + 'smile3.gif' ],
-           [';\)+', SMILES_URL + 'wink.gif' ],
-           [';\-\)+', SMILES_URL + 'wink.gif' ],
-           [':\(+', SMILES_URL + 'sad.gif' ],
-           [':\-\(+', SMILES_URL + 'sad.gif' ],
-           [':\-\[', SMILES_URL + 'blush2.gif' ],
-           [':p', SMILES_URL + 'blum2.gif' ],
-           [':-p', SMILES_URL + 'blum2.gif' ],
-        ]
-
 DEFAULT_FROM_EMAIL = 'robot@uralsocionics.ru'
 
 

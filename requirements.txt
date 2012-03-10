@@ -3,6 +3,8 @@ Markdown
 MySQL-python
 PIL
 South
+boto
+django-ses
 django-tagging
 flup
 logging
