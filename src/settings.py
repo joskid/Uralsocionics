@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 # Django settings for perspectiva project.
-import os, sys
-import platform
+import os
 
 DEBUG = False
 TEMPLATE_DEBUG = False
 APPEND_SLASH = False
 
 ADMINS = (
-    ('Glader', 'glader@glader.ru'),
+    ('Glader', 'glader.ru@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -113,10 +112,6 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
             },
-        'myproject.custom': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'INFO',
-        }
     }
 }
 
