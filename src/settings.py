@@ -79,6 +79,8 @@ INSTALLED_APPS = (
 
 SERVER_EMAIL = DEFAULT_FROM_EMAIL = 'glader.ru@gmail.com'
 
+LOG_PATH = '/var/log/projects/uralsocionics'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -92,9 +94,15 @@ LOGGING = {
     },
     'handlers': {
         'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
-            'formatter': 'simple'
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter':'simple'
+        },
+        'file':{
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOG_PATH, 'traceback.log'),
+            'formatter': 'verbose',
         },
         'mail_admins': {
             'level': 'ERROR',
@@ -103,10 +111,10 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
+            'handlers': ['mail_admins', 'file'],
+            'level': 'WARNING',
             'propagate': True,
-            },
+        },
     }
 }
 
