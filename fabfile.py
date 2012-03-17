@@ -60,7 +60,7 @@ def local_settings():
         upload_template(
             'src/local_settings.py.sample',
             'local_settings.py',
-            locals(),
+            globals(),
             backup=False
         )
 
