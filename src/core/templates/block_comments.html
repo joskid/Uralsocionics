@@ -1,21 +1,21 @@
-﻿{% load common %}
+﻿{% load pytils_dt %}
+{% load common %}
+
 <div class="comments">
 
     <ul class="article_announce">
 
-{% for c in comments %}
-
-<li>
-
-    <div class="comment" id="c{{ c.id }}">
-        <div class="title">{{ c.author.nick }}</div>
-        <div class="date">{{ c.date_created|human_date }} {{ c.date_created|date:"H:i" }}</div>
-        {% if user.get_profile.is_empowered %} | <div class="grey"> <a href="/admin/core/comment/{{ c.id }}/" target="_blank">Редактировать</a> / <a href="/admin/core/comment/{{ c.id }}/delete/" target="_blank">Удалить</a></div>{% endif %}
-        <p>
-        <div class="content markdown">{{ c.content|markup }}</div>
-    </div>
-        </li>
-    {% endfor %}
+        {% for c in comments %}
+            <li>
+                <div class="comment" id="c{{ c.id }}">
+                    <div class="title">{{ c.author.nick }}</div>
+                    <div class="date">{{ c.date_created|ru_strftime:"%d %B" }} {{ c.date_created|date:"H:i" }}</div>
+                    {% if user.get_profile.is_empowered %} | <div class="grey"> <a href="/admin/core/comment/{{ c.id }}/" target="_blank">Редактировать</a> / <a href="/admin/core/comment/{{ c.id }}/delete/" target="_blank">Удалить</a></div>{% endif %}
+                    <p>
+                    <div class="content markdown">{{ c.content|markup }}</div>
+                </div>
+            </li>
+        {% endfor %}
     </ul>
 
 </div>

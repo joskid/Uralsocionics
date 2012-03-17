@@ -1,6 +1,7 @@
 ﻿{% extends "base.html" %}
-{% load common %}
+{% load pytils_dt %}
 {% load tagging_tags %}
+{% load common %}
 
 {% block title %}{{ article.title|safe }}{% endblock %}
 
@@ -14,7 +15,7 @@
         <h3>{% article_authors article %}</h3>
 
 
-    {% if article.show_date %}<div class="date">{{ article.date_created|human_date }}</div>{% endif %}
+    {% if article.show_date %}<div class="date" title="{{ article.date_created|ru_strftime:"%d %B %Y г." }}">{{ article.date_created|ru_strftime:"%d %B" }}</div>{% endif %}
 
     <p>
 
