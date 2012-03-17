@@ -64,7 +64,7 @@
             {% if user.is_authenticated %}
                 <b><big><a href="{{ MEDIA_URL }}img/jnso.zip">СКАЧАТЬ</a></big></b>
             {% else %}
-Чтобы увидеть ссылку, <a href='{% url login %}'>войдите</a> или <a href="{% url registration %}">зарегистрируйтесь</a>
+                Чтобы увидеть ссылку, <a href='{% url login %}'>войдите</a> или <a href="{% url registration %}">зарегистрируйтесь</a>
             {% endif %}
         </div>
 
@@ -75,7 +75,7 @@
             <a href="{% url tag tag.id %}" class="tag_{{ tag.font_size }}">{{ tag }}</a>
         {% endfor %}
 
-<br><br>
+    <br><br>
 
 <p><small>Для корректного отображения соционических символов в некоторых статьях необходим специальный <a href="http://uralsocionics.ru/media/img/Socionic.TTF">соционический шрифт</a>.</small>
 </td></tr></table>
@@ -84,14 +84,30 @@
   <small class="nav-text"><!--<a href="/sitemap">Карта сайта</a></small>--> <small> &#169; Уральская школа соционики, 2008-2011</small>
   </div>
 
+<!-- Yandex.Metrika counter -->
+<div style="display:none;"><script type="text/javascript">
+    (function(w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter13170700 = new Ya.Metrika({id:13170700, enableAll: true});
+            }
+            catch(e) { }
+        });
+    })(window, "yandex_metrika_callbacks");
+</script></div>
+<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script>
+<noscript><div><img src="//mc.yandex.ru/watch/13170700" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
 <!-- Счетчик посещений -->
 <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script type="text/javascript">
-var pageTracker = _gat._getTracker("UA-204080-3");
-pageTracker._trackPageview();
+    var pageTracker = _gat._getTracker("UA-204080-3");
+    pageTracker._trackPageview();
 </script>
+
 </body>
 </html>
