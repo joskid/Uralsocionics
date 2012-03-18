@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Django settings for perspectiva project.
+# Django settings for uralsocionics project.
 import os
 
 DEBUG = False
