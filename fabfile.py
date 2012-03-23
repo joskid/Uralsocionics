@@ -34,7 +34,6 @@ def production():
     local_settings()
     lighttpd()
     runit()
-    dump()
     migrate()
     restart()
 
@@ -76,10 +75,6 @@ def runit():
     sudo('cp %(directory)s/tools/runit/run /etc/sv/uralsocionics/run' % env, shell=False)
 
 
-def dump():
-    pass
-
-
 def manage_py(command):
     virtualenv('cd %s && python manage.py %s' % (env.manage_dir, command))
 
@@ -90,3 +85,9 @@ def migrate():
 
 def restart():
     sudo('sv restart uralsocionics')
+
+
+def local_env():
+    with settings(warn_only=True):
+        local('c:\\python\\python virtualenv.py ENV --system-site-packages')
+    local('ENV\\Scripts\\pip install -r requirements.txt ')
