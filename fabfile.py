@@ -100,7 +100,7 @@ def local_settings():
 
 def lighttpd():
     run('cp %(directory)s/tools/lighttpd/90-uralsocionics.conf /etc/lighttpd/conf-available/90-uralsocionics.conf' % env, shell=False)
-    sudo('/etc/init.d/lighttpd reload', shell=False)
+#    sudo('/etc/init.d/lighttpd restart', shell=False)
 
 
 def runit():
