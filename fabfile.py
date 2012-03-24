@@ -41,7 +41,7 @@ def init():
         sudo('chmod 777 /var/log/projects/uralsocionics')
 
     if not exists('/etc/lighttpd/conf-available/10-modules.conf'):
-        sudo('cp %(directory)s/tools/lighttpd/10-modules.conf /etc/lighttpd/conf-available/10-modules.conf' % env, shell=False)
+        put('src/tools/lighttpd/10-modules.conf', '/etc/lighttpd/conf-available/10-modules.conf', use_sudo=True)
         sudo('ln -s /etc/lighttpd/conf-available/10-modules.conf /etc/lighttpd/conf-enabled/10-modules.conf', shell=False)
 
     if not exists('/etc/lighttpd/conf-available/90-uralsocionics.conf'):
