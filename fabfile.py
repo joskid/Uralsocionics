@@ -32,7 +32,6 @@ def init():
         sudo('yes | adduser --disabled-password %s' % SSH_USER)
         sudo('mkdir /home/%s/.ssh' % SSH_USER)
         sudo('echo "%s" >> /home/%s/.ssh/authorized_keys' % (env.www_ssh_key, SSH_USER))
-        sudo('chown -R %(user)s:%(user)s /home/%(user)s' % {'user': SSH_USER})
 
     append('/etc/sudoers', '%s  ALL=(ALL) NOPASSWD:/usr/bin/sv,/etc/init.d/lighttpd' % SSH_USER, use_sudo=True)
 
@@ -41,7 +40,7 @@ def init():
         sudo('chmod 777 /var/log/projects/uralsocionics')
 
     if not exists('/etc/lighttpd/conf-available/10-modules.conf'):
-        put('src/tools/lighttpd/10-modules.conf', '/etc/lighttpd/conf-available/10-modules.conf', use_sudo=True)
+        put('tools/lighttpd/10-modules.conf', '/etc/lighttpd/conf-available/10-modules.conf', use_sudo=True)
         sudo('ln -s /etc/lighttpd/conf-available/10-modules.conf /etc/lighttpd/conf-enabled/10-modules.conf', shell=False)
 
     if not exists('/etc/lighttpd/conf-available/90-uralsocionics.conf'):
@@ -54,8 +53,11 @@ def init():
         sudo('mkdir -p /etc/sv/uralsocionics/supervise')
         sudo('touch /etc/sv/uralsocionics/run')
         sudo('chown %s /etc/sv/uralsocionics/run' % SSH_USER)
-        sudo('chmod 755 /etc/sv/uralsocionics/run' % SSH_USER)
+        sudo('chmod 755 /etc/sv/uralsocionics/run')
         sudo('ln -s /etc/sv/uralsocionics /etc/service/uralsocionics', shell=False)
+
+    sudo('mkdir -p /home/%s/projects/uralsocionics' % SSH_USER)
+    sudo('chown -R %(user)s:%(user)s /home/%(user)s' % {'user': SSH_USER})
 
 
 def production():
@@ -102,7 +104,7 @@ def lighttpd():
 
 
 def runit():
-    sudo('cp %(directory)s/tools/runit/run /etc/sv/uralsocionics/run' % env, shell=False)
+    run('cp %(directory)s/tools/runit/run /etc/sv/uralsocionics/run' % env, shell=False)
 
 
 def manage_py(command):
