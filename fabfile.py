@@ -32,8 +32,8 @@ def production():
     upload()
     environment()
     local_settings()
-    lighttpd()
-    runit()
+#    lighttpd()
+#    runit()
     migrate()
     restart()
 
@@ -84,7 +84,7 @@ def migrate():
 
 
 def restart():
-    sudo('sv restart uralsocionics')
+    run('sudo sv restart uralsocionics')
 
 
 def local_env():

@@ -175,7 +175,6 @@ class Illustration(models.Model):
     """ Картинки к статьям """
     article = models.ForeignKey(Article, verbose_name=u"Статья")
     title = models.CharField(max_length=200, verbose_name=u"Название", blank=True, default="")
-    image = models.ImageField(upload_to="img/", verbose_name=u"Картинка", help_text="Чтобы вставить картинку в статью, скопируй правой кнопкой ссылку выше и напиши в статье &lt;img src=\"ссылка\"&gt;")
     img = YFField(
         verbose_name=u"Картинка",
         upload_to='uralsocionics',
