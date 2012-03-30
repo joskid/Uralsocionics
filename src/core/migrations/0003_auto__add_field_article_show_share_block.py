@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Article.show_share_block'
         db.add_column('core_article', 'show_share_block', self.gf('django.db.models.fields.BooleanField')(default=True), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Article.show_share_block'
         db.delete_column('core_article', 'show_share_block')
-
 
     models = {
         'auth.group': {

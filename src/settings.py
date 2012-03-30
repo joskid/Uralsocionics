@@ -94,12 +94,12 @@ LOGGING = {
         },
     },
     'handlers': {
-        'console':{
+        'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter':'simple'
+            'formatter': 'simple'
         },
-        'file':{
+        'file': {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOG_PATH, 'traceback.log'),

@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding model 'Profile'
         db.create_table('core_profile', (
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
@@ -116,10 +117,9 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
         ))
         db.send_create_signal('core', ['EventDay'])
-    
-    
+
     def backwards(self, orm):
-        
+
         # Deleting model 'Profile'
         db.delete_table('core_profile')
 
@@ -149,8 +149,7 @@ class Migration(SchemaMigration):
 
         # Deleting model 'EventDay'
         db.delete_table('core_eventday')
-    
-    
+
     models = {
         'auth.group': {
             'Meta': {'object_name': 'Group'},
@@ -270,5 +269,5 @@ class Migration(SchemaMigration):
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'socionics_profile'", 'primary_key': 'True', 'to': "orm['auth.User']"})
         }
     }
-    
+
     complete_apps = ['core']

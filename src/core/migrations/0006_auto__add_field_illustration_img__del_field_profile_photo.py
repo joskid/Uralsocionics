@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Illustration.img'
         db.add_column('core_illustration', 'img', self.gf('yafotki.fields.YFField')(default=None, max_length=255, null=True, blank=True), keep_default=False)
 
         # Deleting field 'Profile.photo'
         db.delete_column('core_profile', 'photo')
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Illustration.img'
         db.delete_column('core_illustration', 'img')
 
         # Adding field 'Profile.photo'
         db.add_column('core_profile', 'photo', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True), keep_default=False)
-
 
     models = {
         'auth.group': {

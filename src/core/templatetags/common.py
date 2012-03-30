@@ -9,6 +9,7 @@ from pytils.dt import MONTH_NAMES
 markdown.HTML_REMOVED_TEXT = ""
 register = template.Library()
 
+
 @register.filter
 def markup(text, safe='unsafe'):
     if safe == 'safe':
@@ -23,7 +24,7 @@ def markup(text, safe='unsafe'):
 
 @register.inclusion_tag('block_article_authors.html')
 def article_authors(article):
-    return {'article':article}
+    return {'article': article}
 
 
 @register.filter

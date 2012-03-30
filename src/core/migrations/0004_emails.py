@@ -1,11 +1,13 @@
 # encoding: utf-8
-import datetime, os
+import datetime
+import os
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 from django.conf import settings
 
 from django_subscribe.models import Subscription
+
 
 class Migration(DataMigration):
 
@@ -19,7 +21,6 @@ class Migration(DataMigration):
 
     def backwards(self, orm):
         "Write your backwards methods here."
-
 
     models = {
         'subscribe.subscription': {

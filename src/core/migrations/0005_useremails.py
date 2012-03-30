@@ -6,6 +6,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django_subscribe.models import Subscription
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -16,10 +17,8 @@ class Migration(DataMigration):
             s.fill_codes()
             s.confirm(s.confirmation_code)
 
-
     def backwards(self, orm):
         "Write your backwards methods here."
-
 
     models = {
         'auth.group': {

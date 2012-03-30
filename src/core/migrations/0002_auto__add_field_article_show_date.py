@@ -4,20 +4,19 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding field 'Article.show_date'
         db.add_column('core_article', 'show_date', self.gf('django.db.models.fields.BooleanField')(default=True, blank=True))
-    
-    
+
     def backwards(self, orm):
-        
+
         # Deleting field 'Article.show_date'
         db.delete_column('core_article', 'show_date')
-    
-    
+
     models = {
         'auth.group': {
             'Meta': {'object_name': 'Group'},
@@ -138,5 +137,5 @@ class Migration(SchemaMigration):
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'socionics_profile'", 'primary_key': 'True', 'to': "orm['auth.User']"})
         }
     }
-    
+
     complete_apps = ['core']

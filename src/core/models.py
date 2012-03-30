@@ -12,16 +12,17 @@ from core.signals import new_comment_signal, del_comment_signal
 from south.modelsinspector import add_introspection_rules
 add_introspection_rules([], ["^yafotki\.fields\.YFField"])
 
-class GenericManager( models.Manager ):
+
+class GenericManager(models.Manager):
     """
     Filters query set with given selectors
     """
     def __init__(self, **kwargs):
-        super( GenericManager, self ).__init__()
+        super(GenericManager, self).__init__()
         self.selectors = kwargs
 
     def get_query_set(self):
-        return super( GenericManager, self ).get_query_set().filter( **self.selectors )
+        return super(GenericManager, self).get_query_set().filter(**self.selectors)
 
 
 class Profile(models.Model):
@@ -43,14 +44,15 @@ class Profile(models.Model):
     )
     level = models.IntegerField(choices=LEVEL_CHOICES, default=10, verbose_name=u"Уровень")
 
-    objects = GenericManager( level__gte=10 ) # Зарегистрированные пользователи
+    objects = GenericManager(level__gte=10)  # Зарегистрированные пользователи
 
     class Meta:
         verbose_name = u"Профиль юзера"
         verbose_name_plural = u"Профили юзеров"
         ordering = ['order']
 
-    def __unicode__(self): return self.name or self.nick or ""
+    def __unicode__(self):
+        return self.name or self.nick or ""
 
     def is_empowered(self):
         return self.level >= 20
@@ -66,8 +68,12 @@ class Comment(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey()
 
-    def __unicode__(self): return self.content_object.title + ": " + self.content[:20]
-    def get_absolute_url(self): return "%s#c%i" % (self.content_object.get_absolute_url(), self.id)
+    def __unicode__(self):
+        return self.content_object.title + ": " + self.content[:20]
+
+    def get_absolute_url(self):
+        return "%s#c%i" % (self.content_object.get_absolute_url(), self.id)
+
     def parent_title(self):
         return self.content_type.__unicode__() + ': ' + self.content_object.__unicode__()
     parent_title.short_description = u'Родитель'
@@ -96,10 +102,11 @@ class Letter(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=u"Дата создания")
     date_sended = models.DateTimeField(null=True, blank=True, verbose_name=u"Дата отправки")
 
-    objects = GenericManager( )
-    waiting = GenericManager( date_sended=None ) # Ожидающие отправки
+    objects = GenericManager()
+    waiting = GenericManager(date_sended=None)  # Ожидающие отправки
 
-    def __unicode__(self): return "%s: %s" % (self.recipient, self.subject)
+    def __unicode__(self):
+        return "%s: %s" % (self.recipient, self.subject)
 
 
 class Edition(models.Model):
@@ -109,7 +116,8 @@ class Edition(models.Model):
     price = models.IntegerField(verbose_name=u"Цена", null=True, blank=True,
                                 help_text=u"Не указывайте цену, если издания нет в продаже")
 
-    def __unicode__(self): return self.name + ' ' + self.number
+    def __unicode__(self):
+        return self.name + ' ' + self.number
 
     class Meta:
         verbose_name = u"Издание"
@@ -125,7 +133,8 @@ class Category(models.Model):
     show_title = models.BooleanField(default=True, verbose_name=u"Показывать название")
     announce_amount = models.IntegerField(default=5, verbose_name=u"Количество анонсов")
 
-    def __unicode__(self): return self.title
+    def __unicode__(self):
+        return self.title
 
     class Meta:
         verbose_name = u"Раздел статей"
@@ -137,7 +146,7 @@ class Article(models.Model):
     """ Статьи """
     category = models.ManyToManyField(Category, null=True, blank=True, related_name='categories', verbose_name=u"Категория")
     edition = models.ForeignKey(Edition, null=True, blank=True, verbose_name=u"Журнал")
-    authors = models.ManyToManyField(Profile, null=True, blank=True, related_name='authors', verbose_name=u"Автор", limit_choices_to = {'level__gte': 20})
+    authors = models.ManyToManyField(Profile, null=True, blank=True, related_name='authors', verbose_name=u"Автор", limit_choices_to={'level__gte': 20})
     other_author = models.CharField(max_length=200, null=True, blank=True, verbose_name=u"Другой автор", help_text=u"Автор, не имеющий отношения к этому сайту. Просто имя. Можно перечислить несколько через запятую.")
     title = models.CharField(max_length=200, verbose_name=u"Название")
     slug = models.SlugField(max_length=200, null=True, blank=True, verbose_name=u"Англ. слово", help_text=u"Это слово будет краткой ссылкой на статью. Можно использовать англ. буквы и символ '_'.")
@@ -155,9 +164,11 @@ class Article(models.Model):
 
     tags = TagField()
 
-    def __unicode__(self): return self.title
+    def __unicode__(self):
+        return self.title
 
-    def get_absolute_url(self): return "/article/%d" % self.pk
+    def get_absolute_url(self):
+        return "/article/%d" % self.pk
 
     def all_authors(self):
         authors_list = list(self.authors.all()) or []
@@ -182,7 +193,9 @@ class Illustration(models.Model):
         help_text="Чтобы вставить картинку в статью, скопируй правой кнопкой ссылку выше и напиши в статье &lt;img src=\"ссылка\"&gt;"
     )
 
-    def __unicode__(self): return self.title
+    def __unicode__(self):
+        return self.title
+
     def article_title(self):
         return self.article.title
     article_title.short_description = u'Статья'
@@ -197,7 +210,9 @@ class EventDay(models.Model):
     date = models.DateField(verbose_name=u"Дата события", unique=True)
     content = models.TextField(verbose_name=u"Содержание")
 
-    def __unicode__(self): return unicode(self.date)
+    def __unicode__(self):
+        return unicode(self.date)
+
     class Meta:
         verbose_name = u"Дата расписания"
         verbose_name_plural = u"Даты расписания"

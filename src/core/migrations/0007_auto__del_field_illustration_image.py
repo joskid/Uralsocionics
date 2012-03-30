@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting field 'Illustration.image'
         db.delete_column('core_illustration', 'image')
 
-
     def backwards(self, orm):
-        
+
         # User chose to not deal with backwards NULL issues for 'Illustration.image'
         raise RuntimeError("Cannot reverse this migration. 'Illustration.image' and its values cannot be restored.")
-
 
     models = {
         'auth.group': {

@@ -9,4 +9,3 @@ urlpatterns = patterns('',
     (r'^subscribe/', include('django_subscribe.urls')),
     (r'^', include('core.urls')),
 )
-

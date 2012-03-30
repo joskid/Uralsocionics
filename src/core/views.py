@@ -16,6 +16,7 @@ from django_subscribe.models import Subscription
 from core.models import *
 from core.forms import *
 
+
 def render_to_response(request, template_name, context_dict=None):
     from django.shortcuts import render_to_response as _render_to_response
     if not context_dict:
@@ -31,6 +32,7 @@ def index(request):
                }
     return render_to_response(request, 'index.html', context)
 
+
 def category(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
     articles = category.categories.order_by('-date_created')
@@ -40,6 +42,7 @@ def category(request, category_id):
                'children': Category.objects.filter(parent=category)
                }
     return render_to_response(request, 'category.html', context)
+
 
 def article(request, article_id):
     profile = request.user.is_authenticated() and request.user.get_profile() or None
@@ -58,12 +61,14 @@ def article(request, article_id):
 
     return render_to_response(request, 'article.html', context)
 
+
 def edition(request, edition_id):
     edition = get_object_or_404(Edition, pk=edition_id)
     context = {'edition': edition,
                'articles': edition.article_set.all()
                }
     return render_to_response(request, 'edition.html', context)
+
 
 def tag(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
@@ -80,7 +85,7 @@ def schedule(request):
     request_date = today
     if 'date' in request.GET:
         try:
-            request_date = date( *time.strptime(request.GET['date'], "%Y-%m-%d")[:3] )
+            request_date = date(*time.strptime(request.GET['date'], "%Y-%m-%d")[:3])
             if request_date < date(2009, 1, 1):
                 request_date = date.today()
         except ValueError:
@@ -88,8 +93,8 @@ def schedule(request):
 
     request_date = request_date.replace(day=1)
     startMonth = request_date.month
-    days = dict( (d.date, d) for d in EventDay.objects.filter(date__range=(request_date, request_date+timedelta(days=100)) ) )
-    for m in xrange(startMonth, startMonth+months_count):
+    days = dict((d.date, d) for d in EventDay.objects.filter(date__range=(request_date, request_date + timedelta(days=100))))
+    for m in xrange(startMonth, startMonth + months_count):
         if m > 12:
             month = m - 12
             year = request_date.year + 1
@@ -101,7 +106,7 @@ def schedule(request):
 
         for week in month_days:
             for i in xrange(0, len(week)):
-                week[i] = {'day':week[i]}
+                week[i] = {'day': week[i]}
                 try:
                     week[i]['date'] = date(year, month, int(week[i]['day']))
                     if i >= 5:
@@ -112,13 +117,14 @@ def schedule(request):
                 except ValueError:
                     week[i]['date'] = ''
 
-        schedule.append({'month':month_days, 'number':month})
+        schedule.append({'month': month_days, 'number': month})
 
     return render_to_response(request, 'schedule.html',
-                              {'schedule':schedule,
+                              {'schedule': schedule,
                                'prev': (request_date - timedelta(days=15)).replace(day=1),
                                'next': (request_date + timedelta(days=45)).replace(day=1)
                                })
+
 
 def order(request):
     context = {}
@@ -152,7 +158,7 @@ def ask(request):
     else:
         form = Ask01()
 
-    return render_to_response(request, 'ask.html', {'form':form})
+    return render_to_response(request, 'ask.html', {'form': form})
 
 
 def sitemap(request):
@@ -162,12 +168,14 @@ def sitemap(request):
                }
     return render_to_response(request, 'sitemap.html', context)
 
+
 def send_registration_letter(profile):
     t = loader.get_template('email/registration.html')
-    c = Context({'profile':profile})
+    c = Context({'profile': profile})
     subject, content = t.render(c).split("\n", 1)
     letter = Letter(recipient=profile, subject=subject, content=content)
     letter.save()
+
 
 def registration(request):
     if request.POST:
@@ -196,4 +204,4 @@ def registration(request):
     else:
         form = RegistrationForm(initial={})
 
-    return render_to_response(request, 'registration.html', {'form':form})
+    return render_to_response(request, 'registration.html', {'form': form})
