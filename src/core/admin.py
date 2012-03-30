@@ -21,7 +21,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 class IllustrationAdmin(admin.ModelAdmin):
-    list_display = ('title', 'article_title', 'image')
+    list_display = ('title', 'article_title', 'img')
 
 
 class EventDayAdmin(admin.ModelAdmin):
