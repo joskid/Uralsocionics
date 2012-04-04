@@ -22,47 +22,42 @@ def virtualenv(command):
 
 
 def init():
-    env.deploy_user = env.user = 'ubuntu'
+    with settings(user='ubuntu'):
+        sudo('apt-get update')
+        sudo('apt-get install -y mc lighttpd mysql-client git-core python-setuptools python-dev runit rrdtool sendmail memcached libjpeg62-dev')
+        sudo('apt-get build-dep -y python-mysqldb')
 
-    sudo('apt-get update')
-    sudo('apt-get install -y mc lighttpd mysql-client git-core python-setuptools python-dev runit rrdtool sendmail memcached libjpeg62-dev')
-    sudo('apt-get build-dep -y python-mysqldb')
+        if not exists('/home/%s' % SSH_USER):
+            sudo('yes | adduser --disabled-password %s' % SSH_USER)
+            sudo('mkdir /home/%s/.ssh' % SSH_USER)
+            sudo('echo "%s" >> /home/%s/.ssh/authorized_keys' % (env.www_ssh_key, SSH_USER))
 
-    if not exists('/home/%s' % SSH_USER):
-        sudo('yes | adduser --disabled-password %s' % SSH_USER)
-        sudo('mkdir /home/%s/.ssh' % SSH_USER)
-        sudo('echo "%s" >> /home/%s/.ssh/authorized_keys' % (env.www_ssh_key, SSH_USER))
+        append('/etc/sudoers', '%s  ALL=(ALL) NOPASSWD:/usr/bin/sv' % SSH_USER, use_sudo=True)
 
-    append('/etc/sudoers', '%s  ALL=(ALL) NOPASSWD:/usr/bin/sv,/etc/init.d/lighttpd' % SSH_USER, use_sudo=True)
+        if not exists('/var/log/projects/uralsocionics'):
+            sudo('mkdir -p /var/log/projects/uralsocionics')
+            sudo('chmod 777 /var/log/projects/uralsocionics')
 
-    if not exists('/var/log/projects/uralsocionics'):
-        sudo('mkdir -p /var/log/projects/uralsocionics')
-        sudo('chmod 777 /var/log/projects/uralsocionics')
+        if not exists('/etc/lighttpd/conf-available/10-modules.conf'):
+            put('tools/lighttpd/10-modules.conf', '/etc/lighttpd/conf-available/10-modules.conf', use_sudo=True)
+            sudo('ln -s /etc/lighttpd/conf-available/10-modules.conf /etc/lighttpd/conf-enabled/10-modules.conf', shell=False)
 
-    if not exists('/etc/lighttpd/conf-available/10-modules.conf'):
-        put('tools/lighttpd/10-modules.conf', '/etc/lighttpd/conf-available/10-modules.conf', use_sudo=True)
-        sudo('ln -s /etc/lighttpd/conf-available/10-modules.conf /etc/lighttpd/conf-enabled/10-modules.conf', shell=False)
+        if not exists('/etc/lighttpd/conf-available/90-uralsocionics.conf'):
+            sudo('touch /etc/lighttpd/conf-available/90-uralsocionics.conf')
+        if not exists('/etc/lighttpd/conf-enabled/90-uralsocionics.conf'):
+            sudo('ln -s /etc/lighttpd/conf-available/90-uralsocionics.conf /etc/lighttpd/conf-enabled/90-uralsocionics.conf', shell=False)
 
-    if not exists('/etc/lighttpd/conf-available/90-uralsocionics.conf'):
-        sudo('touch /etc/lighttpd/conf-available/90-uralsocionics.conf')
-        sudo('chown %s /etc/lighttpd/conf-available/90-uralsocionics.conf' % SSH_USER)
-    if not exists('/etc/lighttpd/conf-enabled/90-uralsocionics.conf'):
-        sudo('ln -s /etc/lighttpd/conf-available/90-uralsocionics.conf /etc/lighttpd/conf-enabled/90-uralsocionics.conf', shell=False)
+        if not exists('/etc/sv/uralsocionics'):
+            sudo('mkdir -p /etc/sv/uralsocionics/supervise')
+            sudo('touch /etc/sv/uralsocionics/run')
+            sudo('chmod 755 /etc/sv/uralsocionics/run')
+            sudo('ln -s /etc/sv/uralsocionics /etc/service/uralsocionics', shell=False)
 
-    if not exists('/etc/sv/uralsocionics'):
-        sudo('mkdir -p /etc/sv/uralsocionics/supervise')
-        sudo('touch /etc/sv/uralsocionics/run')
-        sudo('chown %s /etc/sv/uralsocionics/run' % SSH_USER)
-        sudo('chmod 755 /etc/sv/uralsocionics/run')
-        sudo('ln -s /etc/sv/uralsocionics /etc/service/uralsocionics', shell=False)
-
-    sudo('mkdir -p /home/%s/projects/uralsocionics' % SSH_USER)
-    sudo('chown -R %(user)s:%(user)s /home/%(user)s' % {'user': SSH_USER})
+        sudo('mkdir -p /home/%s/projects/uralsocionics' % SSH_USER)
+        sudo('chown -R %(user)s:%(user)s /home/%(user)s' % {'user': SSH_USER})
 
 
 def production():
-    env.deploy_user = env.user = SSH_USER
-
     upload()
     environment()
     local_settings()
@@ -73,38 +68,43 @@ def production():
 
 
 def upload():
-    local('git archive -o archive.tar.gz HEAD')
-    put('archive.tar.gz', env.directory + '/archive.tar.gz')
-    with cd(env.directory):
-        run('tar -zxf archive.tar.gz')
-        run('rm archive.tar.gz')
-    local('del archive.tar.gz')
+    with settings(user=SSH_USER):
+        local('git archive -o archive.tar.gz HEAD')
+        put('archive.tar.gz', env.directory + '/archive.tar.gz')
+        with cd(env.directory):
+            run('tar -zxf archive.tar.gz')
+            run('rm archive.tar.gz')
+        local('del archive.tar.gz')
 
 
 def environment():
-    with cd(env.directory):
-        with settings(warn_only=True):
-            run('python virtualenv.py ENV')
-        virtualenv('pip install -r requirements.txt')
+    with settings(user=SSH_USER):
+        with cd(env.directory):
+            with settings(warn_only=True):
+                run('python virtualenv.py ENV')
+            virtualenv('pip install -r requirements.txt')
 
 
 def local_settings():
-    with cd(env.manage_dir):
-        upload_template(
-            'src/local_settings.py.sample',
-            'local_settings.py',
-            globals(),
-            backup=False
-        )
+    with settings(user=SSH_USER):
+        with cd(env.manage_dir):
+            upload_template(
+                'src/local_settings.py.sample',
+                'local_settings.py',
+                globals(),
+                backup=False
+            )
 
 
 def lighttpd():
-    run('cp %(directory)s/tools/lighttpd/90-uralsocionics.conf /etc/lighttpd/conf-available/90-uralsocionics.conf' % env, shell=False)
-#    sudo('/etc/init.d/lighttpd restart', shell=False)
+    with settings(user='ubuntu'):
+        run('cp %(directory)s/tools/lighttpd/90-uralsocionics.conf /etc/lighttpd/conf-available/90-uralsocionics.conf' % env, shell=False)
+        #sudo('/etc/init.d/lighttpd restart')
 
 
 def runit():
-    run('cp %(directory)s/tools/runit/run /etc/sv/uralsocionics/run' % env, shell=False)
+    with settings(user='ubuntu'):
+        run('cp %(directory)s/tools/runit/run /etc/sv/uralsocionics/run' % env, shell=False)
 
 
 def manage_py(command):
@@ -112,11 +112,13 @@ def manage_py(command):
 
 
 def migrate():
-    manage_py('migrate')
+    with settings(user=SSH_USER):
+        manage_py('migrate')
 
 
 def restart():
-    run('sudo sv restart uralsocionics')
+    with settings(user=SSH_USER):
+        run('sudo sv restart uralsocionics')
 
 
 def local_env():

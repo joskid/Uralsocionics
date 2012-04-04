@@ -11,5 +11,4 @@ logging
 wsgiref
 pytils
 -e git+https://github.com/glader/django_subscribe.git#egg=django_subscribe
-feedparser
-https://bitbucket.org/redsnow/django-yafotki/get/4dd30f6114d5.zip
+-e git+https://github.com/glader/django_yafotki.git#egg=yafotki
