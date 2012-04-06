@@ -98,13 +98,13 @@ def local_settings():
 
 def lighttpd():
     with settings(user='ubuntu'):
-        run('cp %(directory)s/tools/lighttpd/90-uralsocionics.conf /etc/lighttpd/conf-available/90-uralsocionics.conf' % env, shell=False)
+        sudo('cp %(directory)s/tools/lighttpd/90-uralsocionics.conf /etc/lighttpd/conf-available/90-uralsocionics.conf' % env, shell=False)
         #sudo('/etc/init.d/lighttpd restart')
 
 
 def runit():
     with settings(user='ubuntu'):
-        run('cp %(directory)s/tools/runit/run /etc/sv/uralsocionics/run' % env, shell=False)
+        sudo('cp %(directory)s/tools/runit/run /etc/sv/uralsocionics/run' % env, shell=False)
 
 
 def manage_py(command):
