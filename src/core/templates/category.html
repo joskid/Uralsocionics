@@ -1,7 +1,6 @@
 ﻿{% extends "base.html" %}
 {% load common %}
 {% load tagging_tags %}
-{% load pytils_dt %}
 
 {% block title %}{{ category.title }}{% endblock %}
 
@@ -26,7 +25,7 @@
         <li>
           <div class="title"><a href="{% url article article.id %}">{{ article.title|safe }}</a></div>
           <div class="authors">{% article_authors article %}</div>
-          <div class="date" title="{{ article.date_created|ru_strftime:"%d %B %Y г." }}">{{ article.date_created|ru_strftime:"%d %B" }}</div>
+          <div class="date">{{ article.date_created|human_date }}</div>
 
           <p>
             <div class="content">

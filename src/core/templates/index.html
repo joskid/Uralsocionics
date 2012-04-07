@@ -1,5 +1,4 @@
 ﻿{% extends "base.html" %}
-{% load pytils_dt %}
 {% load tagging_tags %}
 {% load common %}
 
@@ -12,7 +11,7 @@
 		<li>
 		  <div class="title"><a href="{% url article article.id %}">{{ article.title|safe }}</a></div>
 		  <div class="authors">{% article_authors article %}</div>
-          <div class="date" title="{{ article.date_created|ru_strftime:"%d %B %Y г." }}">{{ article.date_created|ru_strftime:"%d %B" }}</div>
+          <div class="date">{{ article.date_created|human_date }}</div>
 
 <p>		  <div class="content">{{ article.announce|markup:"safe" }}
 <br>                    <a href="{% url article article.id %}">Читать дальше...</a></div>

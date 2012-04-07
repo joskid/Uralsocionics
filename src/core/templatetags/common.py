@@ -1,10 +1,10 @@
 # encoding: utf-8
-
 import markdown
+from datetime import datetime
 
 from django import template
 from django.utils.safestring import mark_safe
-from pytils.dt import MONTH_NAMES
+from pytils.dt import MONTH_NAMES, ru_strftime
 
 markdown.HTML_REMOVED_TEXT = ""
 register = template.Library()
@@ -30,3 +30,12 @@ def article_authors(article):
 @register.filter
 def human_month(monthNumber):
     return MONTH_NAMES[monthNumber - 1][1]
+
+@register.filter
+def human_date(dt):
+    now = datetime.now()
+    if now.year == dt.year:
+        return ru_strftime(date=dt, format=u"%d %B", inflected=True)
+    else:
+        return ru_strftime(date=dt, format=u"%d %B %Y г.", inflected=True)
+

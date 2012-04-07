@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import os
+import boto
+import time
 
 from fabric.api import *
 from fabric.contrib.files import exists, append, upload_template
@@ -19,6 +20,35 @@ if not env.hosts:
 def virtualenv(command):
     with cd(env.directory):
         run(env.activate + ' && ' + command)
+
+def _create_server():
+    """Creates EC2 Instance"""
+    print "Creating instance"
+    conn = boto.connect_ec2(EC2_KEY, EC2_SECRET)
+    image = conn.get_all_images([env.ami])
+
+    reservation = image[0].run(1, 1, 'ec2_django_micro', ['default'],
+        instance_type='t1.micro')
+
+    instance = reservation.instances[0]
+    conn.create_tags([instance.id], {"Name":"uralsocionics.ru auto"})
+
+    while instance.state == u'pending':
+        print "Instance state: %s" % instance.state
+        time.sleep(10)
+        instance.update()
+
+    print "Instance state: %s" % instance.state
+    print "Public dns: %s" % instance.public_dns_name
+
+    return instance.public_dns_name
+
+
+def create():
+    dns = _create_server()
+    with settings(hosts=[dns]):
+        init()
+        production()
 
 
 def init():
