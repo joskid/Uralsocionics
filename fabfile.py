@@ -21,6 +21,7 @@ def virtualenv(command):
     with cd(env.directory):
         run(env.activate + ' && ' + command)
 
+
 def _create_server():
     """Creates EC2 Instance"""
     print "Creating instance"
@@ -31,7 +32,7 @@ def _create_server():
         instance_type='t1.micro')
 
     instance = reservation.instances[0]
-    conn.create_tags([instance.id], {"Name":"uralsocionics.ru auto"})
+    conn.create_tags([instance.id], {"Name": "uralsocionics.ru auto"})
 
     while instance.state == u'pending':
         print "Instance state: %s" % instance.state

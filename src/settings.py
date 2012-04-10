@@ -38,6 +38,7 @@ MEDIA_ROOT = PROJECT_PATH + '/media/'
 MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/admin/media/'
 SECRET_KEY = '12345'
+DOMAIN = 'uralsocionics.ru'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -105,6 +106,12 @@ LOGGING = {
             'filename': os.path.join(LOG_PATH, 'traceback.log'),
             'formatter': 'verbose',
         },
+        'email_log': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOG_PATH, 'email.log'),
+            'formatter': 'simple',
+            },
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
@@ -116,6 +123,11 @@ LOGGING = {
             'level': 'WARNING',
             'propagate': True,
         },
+        'django.email': {
+            'handlers': ['email_log'],
+            'level': 'INFO',
+            'propagate': False,
+            },
     }
 }
 

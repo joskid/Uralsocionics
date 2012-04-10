@@ -31,6 +31,7 @@ def article_authors(article):
 def human_month(monthNumber):
     return MONTH_NAMES[monthNumber - 1][1]
 
+
 @register.filter
 def human_date(dt):
     now = datetime.now()
@@ -38,4 +39,3 @@ def human_date(dt):
         return ru_strftime(date=dt, format=u"%d %B", inflected=True)
     else:
         return ru_strftime(date=dt, format=u"%d %B %Y г.", inflected=True)
-
