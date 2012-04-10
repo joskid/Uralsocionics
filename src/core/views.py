@@ -196,9 +196,7 @@ def registration(request):
 
             send_registration_letter(profile)
 
-            s = Subscription(email=form.cleaned_data['email'])
-            s.fill_codes()
-            s.confirm(s.confirmation_code)
+            Subscription.add(email=form.cleaned_data['email'], auto_confirm=True)
 
             return HttpResponseRedirect('/')
     else:
