@@ -19,10 +19,10 @@ def make_letter(profile, template, context):
 def notice_admin(sender, **kwargs):
     message = EmailMessage(u"Новый комментарий",
                            '<a href="http://uralsocionics.ru%s">%s</a>' % (sender.content_object.get_absolute_url(), sender.content_object.title),
-                           'robot@uralsocionics.ru',
+                           None,
                            ['madera@socion.org'])
     message.content_subtype = "html"
-    message.send(fail_silently=False)
+    message.send()
 
 
 def increase_comments_count(sender, **kwargs):
