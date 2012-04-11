@@ -110,7 +110,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOG_PATH, 'email.log'),
-            'formatter': 'simple',
+            'formatter': 'verbose',
             },
         'mail_admins': {
             'level': 'ERROR',
