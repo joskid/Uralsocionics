@@ -1,4 +1,4 @@
 #!/bin/sh
 
 echo $(date) restarted >> /var/log/projects/uralsocionics/restart.log
-exec chpst -u www /home/www/projects/uralsocionics/ENV/bin/python /home/www/projects/uralsocionics/src/manage.py runfcgi minspare=1 maxspare=1 errlog=/var/log/projects/uralsocionics/fcgi-error.log method=prefork host=127.0.0.1 port=3035 pidfile=/home/www/projects/uralsocionics/pid daemonize=false
+exec chpst -u madera /home/madera/projects/uralsocionics/ENV/bin/python /home/madera/projects/uralsocionics/src/manage.py runfcgi minspare=1 maxspare=1 errlog=/var/log/projects/uralsocionics/fcgi-error.log method=prefork host=127.0.0.1 port=3035 pidfile=/home/madera/projects/uralsocionics/pid daemonize=false

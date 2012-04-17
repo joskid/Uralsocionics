@@ -4,7 +4,7 @@ import boto
 import time
 
 from fabric.api import *
-from fabric.contrib.files import exists, append, upload_template
+from fabric.contrib.files import exists, sed, append, upload_template, uncomment
 
 from fab_settings import *
 
@@ -156,3 +156,24 @@ def local_env():
     with settings(warn_only=True):
         local('c:\\python\\python virtualenv.py ENV --system-site-packages')
     local('ENV\\Scripts\\pip install -r requirements.txt ')
+
+def ftp():
+    with settings(user='ubuntu'):
+        sudo('apt-get install -y proftpd')
+        sed('/etc/proftpd/proftpd.conf', 'ListOptions                     "-l"', 'ListOptions                     "-la"', use_sudo=True)
+        uncomment('/etc/proftpd/proftpd.conf', 'DefaultRoot', use_sudo=True)
+        uncomment('/etc/proftpd/proftpd.conf', 'RequireValidShell', use_sudo=True)
+        append('/etc/proftpd/proftpd.conf', 'AuthOrder  mod_auth_file.c', use_sudo=True)
+        append('/etc/proftpd/proftpd.conf', 'AuthUserFile  /etc/proftpd/proftpd.passwd', use_sudo=True)
+        append('/etc/proftpd/proftpd.conf', 'AuthGroupFile  /etc/proftpd/proftpd.group\n', use_sudo=True)
+        sudo('touch /etc/proftpd/proftpd.passwd')
+        sudo('touch /etc/proftpd/proftpd.group')
+        sudo('chown -R root:root  /etc/proftpd')
+        sudo('chmod 0660 /etc/proftpd/proftpd.passwd')
+        sudo('chmod 0660 /etc/proftpd/proftpd.group')
+        sudo('chmod 0660 /etc/proftpd/proftpd.conf')
+        append('/etc/proftpd/proftpd.group', 'tester:*:1000:\n')
+        run('mkdir /home/ubuntu/tester')
+        sudo('ftpasswd --name tester --home /home/ubuntu/tester --uid 1000 --gid 1000 --file /etc/proftpd/proftpd.passwd --shell /sbin/nologin --DES --passwd')
+        append('/etc/proftpd/proftpd.group', 'tester:*:1000:\n', use_sudo=True)
+        sudo('/etc/init.d/proftpd restart')
