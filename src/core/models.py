@@ -5,13 +5,8 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from tagging.fields import TagField
-from yafotki.fields import YFField
 
 from core.signals import new_comment_signal, del_comment_signal
-
-from south.modelsinspector import add_introspection_rules
-add_introspection_rules([], ["^yafotki\.fields\.YFField"])
-
 
 class GenericManager(models.Manager):
     """
@@ -186,9 +181,9 @@ class Illustration(models.Model):
     """ Картинки к статьям """
     article = models.ForeignKey(Article, verbose_name=u"Статья")
     title = models.CharField(max_length=200, verbose_name=u"Название", blank=True, default="")
-    img = YFField(
+    img = models.ImageField(
         verbose_name=u"Картинка",
-        upload_to='uralsocionics',
+        upload_to='img',
         null=True, blank=True, default=None,
         help_text="Чтобы вставить картинку в статью, скопируй правой кнопкой ссылку выше и напиши в статье &lt;img src=\"ссылка\"&gt;"
     )

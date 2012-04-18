@@ -157,6 +157,16 @@ def local_env():
         local('c:\\python\\python virtualenv.py ENV --system-site-packages')
     local('ENV\\Scripts\\pip install -r requirements.txt ')
 
+
+def update_local_db():
+    with settings(user='ubuntu'):
+        run("mysqldump -u %(DATABASE_USER)s -p%(DATABASE_PASSWORD)s -h %(DATABASE_HOST)s %(DATABASE_DB)s > dump.sql" % globals())
+        get("dump.sql", "dump.sql")
+        run("rm dump.sql")
+        local("mysql -uroot %(DATABASE_DB)s < dump.sql" % globals())
+        local("del dump.sql")
+
+
 def ftp():
     with settings(user='ubuntu'):
         sudo('apt-get install -y proftpd')
@@ -172,8 +182,7 @@ def ftp():
         sudo('chmod 0660 /etc/proftpd/proftpd.passwd')
         sudo('chmod 0660 /etc/proftpd/proftpd.group')
         sudo('chmod 0660 /etc/proftpd/proftpd.conf')
-        append('/etc/proftpd/proftpd.group', 'tester:*:1000:\n')
         run('mkdir /home/ubuntu/tester')
-        sudo('ftpasswd --name tester --home /home/ubuntu/tester --uid 1000 --gid 1000 --file /etc/proftpd/proftpd.passwd --shell /sbin/nologin --DES --passwd')
-        append('/etc/proftpd/proftpd.group', 'tester:*:1000:\n', use_sudo=True)
+        sudo('echo "123" | ftpasswd --name tester --home /home/ubuntu/tester --uid 1000 --gid 1000 --file /etc/proftpd/proftpd.passwd --shell /sbin/nologin --DES --passwd --stdin')
+        append('/etc/proftpd/proftpd.group', 'tester:*:1002:\n', use_sudo=True)
         sudo('/etc/init.d/proftpd restart')

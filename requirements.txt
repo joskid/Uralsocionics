@@ -11,4 +11,3 @@ logging
 wsgiref
 pytils
 -e git+https://github.com/glader/django_subscribe.git#egg=django_subscribe
--e git+https://github.com/glader/django_yafotki.git#egg=yafotki
