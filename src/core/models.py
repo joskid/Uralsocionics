@@ -171,6 +171,10 @@ class Article(models.Model):
             authors_list.append(self.other_author)
         return authors_list
 
+    def save(self, *args, **kwargs):
+        self.comments_count = self.comments.all().count()
+        super(Article, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = u"Статья"
         verbose_name_plural = u"Статьи"
